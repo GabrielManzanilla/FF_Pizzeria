@@ -1,3 +1,5 @@
+
+-- Drop:  Eliminar las tablas o la base de datos
 Drop database FF_Pizzeria;
 
 Drop table Ingredientes;

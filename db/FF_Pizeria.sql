@@ -1,3 +1,5 @@
+
+-- Creando base de datos
 Create database FF_Pizzeria;
 Use FF_Pizzeria;
 
@@ -45,6 +47,7 @@ Create table Details(
     foreing key id_tamanio references Tamanio(id)
 );
 
+-- Insert Datos por defecto
 Insert into Ingredientes(nombre) values
     ('Queso Mozzarella'),
     ('Tomate'),
