@@ -1,54 +1,62 @@
+DROP DATABASE FF_Pizzeria;
+
 
 -- Creando base de datos
-Create database FF_Pizzeria;
-Use FF_Pizzeria;
+CREATE DATABASE FF_Pizzeria;
+USE FF_Pizzeria;
 
-Create table Ingredientes(
-    id int(6) auto_increment not null,
-    nombre varchar(255)
+-- Creando tablas
+CREATE TABLE Ingredientes (
+    id INT(6) AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(255),
+    PRIMARY KEY (id)
 );
 
-Create table Tamanio(
-    id int(6) auto_increment not null,
-    nombre varchar(255),
-    precio float
+CREATE TABLE Tamanio (
+    id INT(6) AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(255),
+    precio FLOAT,
+    PRIMARY KEY (id)
 );
 
-Create table Clientes(
-    id int(6) auto_increment not null,
-    numero int(10),
-    nombre varchar(255),
-    direccion varchar(255)
+CREATE TABLE Clientes (
+    id INT(6) AUTO_INCREMENT NOT NULL,
+    numero BIGINT(20),
+    nombre VARCHAR(255),
+    direccion VARCHAR(255),
+    PRIMARY KEY (id)
 );
 
-Create table Empleados(
-    id int(6) auto_increment not null,
-    numero int(10),
-    nombre varchar(255)
+
+CREATE TABLE Empleados (
+    id INT(6) AUTO_INCREMENT NOT NULL,
+    numero INT(10),
+    nombre VARCHAR(255),
+    PRIMARY KEY (id)
 );
 
-Create table Order(
-    id int(6) auto_increment not null,
-    fecha date,
-    isEntregado bool,
-    id_Cliente int(6),
-    id_empleado int(6),
-    foreing key id_empleado references Empleados(id),
-    id_cliente int(6),
-    foreing key id_cliente references Clientes(id)
+CREATE TABLE Orden (
+    id INT(6) AUTO_INCREMENT NOT NULL,
+    fecha DATE,
+    isEntregado BOOL,
+    id_cliente INT(6),
+    id_empleado INT(6),
+    FOREIGN KEY (id_empleado) REFERENCES Empleados(id),
+    FOREIGN KEY (id_cliente) REFERENCES Clientes(id),
+    PRIMARY KEY (id)
 );
 
-Create table Details(
-    id_order int(6),
-    foreing key id_order references Order(id),
-    id_ingredientes int(6),
-    foreing key id_ingredientes references Ingredientes(id),
-    id_tamanio int(6),
-    foreing key id_tamanio references Tamanio(id)
+CREATE TABLE Details (
+    id_order INT(6),
+    id_ingredientes INT(6),
+    id_tamanio INT(6),
+    FOREIGN KEY (id_order) REFERENCES Orden(id),
+    FOREIGN KEY (id_ingredientes) REFERENCES Ingredientes(id),
+    FOREIGN KEY (id_tamanio) REFERENCES Tamanio(id)
 );
 
--- Insert Datos por defecto
-Insert into Ingredientes(nombre) values
+-- Insertando datos por defecto
+INSERT INTO Ingredientes(nombre) VALUES
     ('Queso Mozzarella'),
     ('Tomate'),
     ('Pepperoni'),
@@ -62,15 +70,13 @@ Insert into Ingredientes(nombre) values
     ('Tocino'),
     ('Pollo');
 
-Insert into Tamanio(nombre, precio) values 
-    ("Chica", 99.90),
-    ("Mediana", 139.90),
-    ("Grande", 219.90);
+INSERT INTO Tamanio(nombre, precio) VALUES 
+    ('Chica', 99.90),
+    ('Mediana', 139.90),
+    ('Grande', 219.90);
 
-
-Insert into Empleados( numero,nombre) values 
-    ("Rafael Pacheco",),
-    ("Gabriel Estrella",),
-    ("Gabriel Manzanilla", 9994919811),
-    ("Isabel Estrella", );
-
+INSERT INTO Empleados(numero, nombre) VALUES 
+    (NULL, 'Rafael Pacheco'),
+    (NULL, 'Gabriel Estrella'),
+    (9994919811, 'Gabriel Manzanilla'),
+    (NULL, 'Isabel Estrella');
