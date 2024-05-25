@@ -8,26 +8,7 @@
 </head>
 <body>
     <div class="main">
-        <!-- Formulario de alta de clientes -->
-        <form action="AltaClientesBD.php" method="post" onsubmit="return validarFormulario()">
-            <label>Numero: </label>
-            <input type="text" name="numero" id="numero" oninput="validarNumero()" class="input-field"><br>
-            <span id="numeroError" class="error-message"></span><br>
 
-            <label>Nombre: </label>
-            <input type="text" name="nombre" id="nombre" oninput="validarNombre()" class="input-field"><br>
-            <span id="nombreError" class="error-message"></span><br>
-
-            <label>Direccion: </label>
-            <input type="text" name="direccion" class="input-field"><br>
-
-            <input type="submit" value="Guardar" class="submit-button"><br>
-        </form>
-        <br>
-
-
-
-        <!-- Tabla de visualización de clientes -->
         <h2>Lista de Clientes</h2>
 
         <?php
@@ -55,7 +36,11 @@
             $total_Filas = mysqli_num_rows($resultado);
             
             if($total_Filas > 0){
-
+            //     echo "<form method='post'>
+            //     <label>Buscar por número: </label>
+            //     <input type='text' name='buscar_numero' value='$numero'>
+            //     <input type='submit' value='Buscar'>
+            // </form>";
                 echo "<table border='1'>";
                 echo "<tr><th>ID</th><th>Numero</th><th>Nombre</th><th>Dirección</th></tr>";
 
@@ -81,14 +66,28 @@
             die("Error: " . mysqli_error($enlace));
         }
         ?>
-
+        <button onclick="mostrarRegistro()">Registrar Cliente</button>
         <br>
-        <!-- Formulario para buscar por número -->
-        <form method="post">
-            <label>Buscar por número: </label>
-            <input type="text" name="buscar_numero" value="<?php echo $numero; ?>">
-            <input type="submit" value="Buscar">
+        <h2>Registrar Cliente</h2>
+        <form action="AltaClientesBD.php" method="post" onsubmit="return validarFormulario()">
+            <label>Numero: 
+                <input type="tel" name="numero" id="numero" oninput="validarNumero()" class="input-field"><br>
+                <span id="numeroError" class="error-message"></span>
+            </label>
+
+            <label>Nombre: 
+                <input type="text" name="nombre" id="nombre" oninput="validarNombre()" class="input-field"><br>
+                <span id="nombreError" class="error-message"></span>
+            </label>
+
+            <label>Direccion: 
+                <input type="text" name="direccion" class="input-field">
+            </label>
+            <br>
+            <input type="submit" value="Guardar" class="submit-button">
         </form>
+        <br>
+        
 
         <!-- Enlace para regresar al menú principal -->
         <a href="../../../index.php" class="link">Regresar al Menú Principal</a>

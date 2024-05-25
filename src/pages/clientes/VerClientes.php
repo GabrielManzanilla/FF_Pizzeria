@@ -36,7 +36,12 @@
         if($total_Filas > 0){
 
             echo "<table border='1'>";
-            echo "<tr><th>ID</th><th>Numero</th><th>Nombre</th><th>Dirección</th></tr>";
+            echo "<tr>
+                    <th>ID</th>
+                    <th>Numero</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                </tr>";
 
             while($row = mysqli_fetch_assoc($resultado)){
                 // Generar una fila de la tabla con los datos de la fila actual
