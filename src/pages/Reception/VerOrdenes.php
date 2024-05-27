@@ -44,7 +44,7 @@
                     echo "<td>" . $row['id_order'] . "</td>";
                     echo "<td>" . $row['nombre_cliente'] . "</td>";
                     if ($row['isEntregado'] == '0') {
-                        echo "<td>" . 'En espera' . "</td>";
+                        echo "<td>" . 'En cocina' . "</td>";
                     } else if ($row['isEntregado'] == '1') {
                         echo "<td>" . 'Entregado' . "</td>";
                     } else {
@@ -68,45 +68,12 @@
             <input type="text" name="nombre" id="nombre" placeholder="Nombre" readonly>
             <input type="text" name="numero" id="numero" placeholder="Telefono" onblur="buscarCliente()">
             <input type="text" name="direccion" id="direccion" placeholder="Direccion" readonly>
-            <select name="tamanioPizza" id="tamanioPizza">
-                <option value="0">Seleccione Tamaño</option>
-                <?php 
-                include("../../conectar.php");
-                $consultaT="SELECT 
-                                    id
-                                    CONCAT(nombre, ' - ', precio) AS options
-                                    FROM Tamanio;";
-                $tamanios=mysqli_query($enlace, $consultaT);
-
-                while($row= mysqli_fetch_assoc($tamanios)){
-                    echo "<option id=". $row['id'] .">".$row['options'] ."</option>";
-                }
-                ?>
-            </select>
+            <input type="button" value="Anadir Pedido" onclick="insertarPizza()">
+            <div id='pizzas' border=1></div>
+            <input type="submit" value="Registrar">
         </form>
-        <script>
-            function buscarCliente() {
-                var numero = document.getElementById('numero').value;
-                var xhr = new XMLHttpRequest();
-                console.log(numero)
-                xhr.open('GET', '../clientes/BuscarCliente.php?numero=' + numero, true);
-                xhr.onload = function(){
-                    if (xhr.status == 200) {
-                        var cliente = JSON.parse(xhr.responseText);
-                        if (cliente) {
-                            document.getElementById('nombre').value = cliente.nombre;
-                            document.getElementById('direccion').value = cliente.direccion;
-                        } else {
-                            alert('Cliente no encontrado');
-                        }
-                    } else {
-                        alert('Error al buscar cliente');
-                    }
-                };
-                xhr.send();
-            }
-
-        </script>
+        <script src="../../js/VerOrdenes.js" defer></script>
+        
     </div>
 </body>
 

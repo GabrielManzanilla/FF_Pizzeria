@@ -1,3 +1,36 @@
+<?php
+include ("../../conectar.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $fecha = $_POST['fecha'];
+    $cliente = $_POST['cliente'];
+    $empleado = $_POST['empleado'];
+    $tamanio = $_POST['tamanio'];
+    $ingredientes = $_POST['ingredientes'];
+
+    $insertOrder = "INSERT INTO Orden (fecha, isEntregado, fk_id_cliente, fk_id_empleado) VALUES ('$fecha', FALSE, $cliente, $empleado)";
+    if (mysqli_query($enlace, $insertOrder)) {
+        $orden_id = mysqli_insert_id($enlace);
+
+        // Insertar los detalles en la tabla Details
+        foreach ($ingredientes as $ingrediente) {
+            $insertDetails = "INSERT INTO Details (fk_id_orden, fk_id_ingredientes, fk_id_tamanio) VALUES ($orden_id, $ingrediente, $tamanio)";
+            mysqli_query($enlace, $insertDetails);
+        }
+
+        // Actualizar el estado de la orden a "En Cocina"
+        $actualizarEstado = "UPDATE Orden SET isEntregado = FALSE WHERE orden_id = $orden_id";
+        mysqli_query($enlace, $actualizarEstado);
+
+        // Redirigir a la misma página para evitar el reenvío del formulario al recargar
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit();
+    } else {
+        echo "Error: " . mysqli_error($enlace);
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,9 +56,8 @@
 
     <h1>Crear Nueva Orden</h1>
 
-
     <!--Formulario.-->
-    <form action="" method="post">
+    <form action="#" method="post">
 
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" name="fecha" required><br><br>
@@ -33,7 +65,6 @@
         <label for="cliente">Cliente:</label>
         <select id="cliente" name="cliente" required>
             <?php
-            include ("../../conectar.php");
             $clientes = mysqli_query($enlace, "SELECT cliente_id, nombre FROM Clientes");
             while ($cliente = mysqli_fetch_assoc($clientes)) {
                 echo "<option value='{$cliente['cliente_id']}'>{$cliente['nombre']}</option>";
@@ -72,55 +103,18 @@
         <input type="submit" value="Crear Orden">
     </form>
 
+    <h1>Listado de Órdenes</h1>
     <?php
-
-
-    include ("../../conectar.php");
-        
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $fecha = $_POST['fecha'];
-        $cliente = $_POST['cliente'];
-        $empleado = $_POST['empleado'];
-        $tamanio = $_POST['tamanio'];
-        $ingredientes = $_POST['ingredientes'];
-    
-        $insertOrder = "INSERT INTO Orden (fecha, isEntregado, fk_id_cliente, fk_id_empleado) VALUES ('$fecha', FALSE, $cliente, $empleado)";
-        if (mysqli_query($enlace, $insertOrder)) {
-            $orden_id = mysqli_insert_id($enlace);
-        
-            // Insertar los detalles en la tabla Details
-            foreach ($ingredientes as $ingrediente) {
-                $insertDetails = "INSERT INTO Details (fk_id_orden, fk_id_ingredientes, fk_id_tamanio) VALUES ($orden_id, $ingrediente, $tamanio)";
-                mysqli_query($enlace, $insertDetails);
-            }
-        
-            // Actualizar el estado de la orden a "En Cocina"
-            $actualizarEstado = "UPDATE Orden SET isEntregado = FALSE WHERE orden_id = $orden_id";
-            mysqli_query($enlace, $actualizarEstado);
-        
-            // Redirigir a la página de la cocina con el ID de la orden como parámetro
-            exit();
-        } else {
-            echo "Error: " . mysqli_error($enlace);
-        }
-    }
-    ?>
-
-
-<h1>Listado de Órdenes</h1>
-    <?php
-    include ("../../conectar.php");
-
     $consultaOrder = "SELECT o.orden_id AS id_order,
                         c.nombre AS nombre_cliente,
                         o.isEntregado,
-                        GROUP_CONCAT(i.nombre SEPARATOR ', ') AS description,
+                        GROUP_CONCAT(t.nombre SEPARATOR ', ') AS description,
                         ROUND(SUM(t.precio),2) AS total_precio
                     FROM Orden o
                     JOIN Clientes c ON o.fk_id_cliente = c.cliente_id
                     JOIN Details d ON o.orden_id = d.fk_id_orden
                     JOIN Tamanio t ON d.fk_id_tamanio = t.tamanio_id
-                    JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
+                    -- JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
                     GROUP BY o.orden_id;";
 
     $orden = mysqli_query($enlace, $consultaOrder);
@@ -164,9 +158,6 @@
         echo "Ha ocurrido un error al consultar las órdenes";
     }
     ?>
-
-
-
 
 </body>
 </html>
