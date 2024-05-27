@@ -61,7 +61,7 @@
             echo "<tr>
             <th>ORDEN</th>
             <th>Cliente</th>
-            <th>Estado Entrega</th>
+            <th>Direccion</th>
             <th>Descripción del Pedido</th>
             <th>TOTAL</th></tr>";
 
