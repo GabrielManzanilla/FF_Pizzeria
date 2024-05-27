@@ -60,7 +60,7 @@
     }
 
     function mostrarRecepcion() {
-        window.location.assign("/src/pages/Recepcion/VerOrdenes.php");
+        window.location.assign("src/pages/Reception/VerOrdenes.php");
     }
 
     function mostrarCocina() {
