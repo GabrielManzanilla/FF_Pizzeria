@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
    <!-- Sección de la cocina -->
 <div class="cocina-section">
+<a href="../../../index.php">Regresar al Menú Principal</a>
     <h2>Ordenes en Cocina</h2>
     <?php
     // Consulta para obtener todas las órdenes

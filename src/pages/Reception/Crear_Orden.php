@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-
+    <a href="../../../index.php">Regresar al Menú Principal</a>
     <h1>Crear Nueva Orden</h1>
 
     <!--Formulario.-->
@@ -69,16 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" name="fecha" required><br><br>
 
-        <label for="cliente">Cliente:</label>
-        <select id="cliente" name="cliente" required>
-            <?php
-            $clientes = mysqli_query($enlace, "SELECT cliente_id, nombre FROM Clientes");
-            while ($cliente = mysqli_fetch_assoc($clientes)) {
-                echo "<option value='{$cliente['cliente_id']}'>{$cliente['nombre']}</option>";
-            }
-            ?>
-        </select><br><br>
-
+        <label for="cliente">Cliente:
+            <select id="cliente" name="cliente" required>
+                <?php
+                $clientes = mysqli_query($enlace, "SELECT cliente_id, nombre FROM Clientes");
+                while ($cliente = mysqli_fetch_assoc($clientes)) {
+                    echo "<option value='{$cliente['cliente_id']}'>{$cliente['nombre']}</option>";
+                }
+                ?>
+            </select>
+            <a href="../clientes/VerClientes.php">Alta Usuario</a>
+        </label>
+        <br><br>
         <label for="empleado">Empleado:</label>
         <select id="empleado" name="empleado" required>
             <?php

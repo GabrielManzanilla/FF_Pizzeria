@@ -7,6 +7,7 @@
     <title>Alta y Visualización de clientes</title>
 </head>
 <body>
+    <a href="../../../index.php">Regresar al Menú Principal</a>
     <div class="main">
 
         <h2>Lista de Clientes</h2>
@@ -90,7 +91,6 @@
         
 
         <!-- Enlace para regresar al menú principal -->
-        <a href="../../../index.php" class="link">Regresar al Menú Principal</a>
     </div>
 </body>
 </html>

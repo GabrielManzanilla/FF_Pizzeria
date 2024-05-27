@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MR. Pizzeria - Repartidor</title>
     <style>
         table {
             width: 100%;
@@ -24,7 +24,7 @@
     </style>
 </head>
 <body>
-    <a href="../../../index.php">Volver</a>
+    <a href="../../../index.php">Regresar al Menú Principal</a>
     <h1 style="text-align:center">PEDIDOS A ENTREGAR</h1>
 <?php
     include("../../conectar.php");

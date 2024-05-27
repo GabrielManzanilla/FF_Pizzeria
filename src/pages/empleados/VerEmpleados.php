@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MR. Pizzeria - Empleados</title>
 </head>
 <body>
+    <a href="../../../index.php">Regresar al Menú Principal</a>
     <h1>"La union hace la fuerza...</h1>
     <h2>... por eso conoce a tu equipo de trabajo"</h2>
 
@@ -30,7 +31,7 @@
             while($row = mysqli_fetch_assoc($resultado)){
                 // Generar una fila de la tabla con los datos de la fila actual
                 echo "<tr>";
-                echo "<td>" . $row['id'] . "</td>";
+                echo "<td>" . $row['empleado_id'] . "</td>";
                 echo "<td>" . $row['numero'] . "</td>";
                 echo "<td>" . $row['nombre'] . "</td>";
                 echo "</tr>";
