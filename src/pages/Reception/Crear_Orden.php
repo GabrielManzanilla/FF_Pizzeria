@@ -25,7 +25,7 @@
 
 
     <!--Formulario.-->
-    <form action="crear_orden.php" method="post">
+    <form action="" method="post">
 
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" name="fecha" required><br><br>
@@ -73,37 +73,38 @@
     </form>
 
     <?php
-include ("../../conectar.php");
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $fecha = $_POST['fecha'];
-    $cliente = $_POST['cliente'];
-    $empleado = $_POST['empleado'];
-    $tamanio = $_POST['tamanio'];
-    $ingredientes = $_POST['ingredientes'];
 
-    $insertOrder = "INSERT INTO Orden (fecha, isEntregado, fk_id_cliente, fk_id_empleado) VALUES ('$fecha', FALSE, $cliente, $empleado)";
-    if (mysqli_query($enlace, $insertOrder)) {
-        $orden_id = mysqli_insert_id($enlace);
-
-        // Insertar los detalles en la tabla Details
-        foreach ($ingredientes as $ingrediente) {
-            $insertDetails = "INSERT INTO Details (fk_id_orden, fk_id_ingredientes, fk_id_tamanio) VALUES ($orden_id, $ingrediente, $tamanio)";
-            mysqli_query($enlace, $insertDetails);
+    include ("../../conectar.php");
+        
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $fecha = $_POST['fecha'];
+        $cliente = $_POST['cliente'];
+        $empleado = $_POST['empleado'];
+        $tamanio = $_POST['tamanio'];
+        $ingredientes = $_POST['ingredientes'];
+    
+        $insertOrder = "INSERT INTO Orden (fecha, isEntregado, fk_id_cliente, fk_id_empleado) VALUES ('$fecha', FALSE, $cliente, $empleado)";
+        if (mysqli_query($enlace, $insertOrder)) {
+            $orden_id = mysqli_insert_id($enlace);
+        
+            // Insertar los detalles en la tabla Details
+            foreach ($ingredientes as $ingrediente) {
+                $insertDetails = "INSERT INTO Details (fk_id_orden, fk_id_ingredientes, fk_id_tamanio) VALUES ($orden_id, $ingrediente, $tamanio)";
+                mysqli_query($enlace, $insertDetails);
+            }
+        
+            // Actualizar el estado de la orden a "En Cocina"
+            $actualizarEstado = "UPDATE Orden SET isEntregado = FALSE WHERE orden_id = $orden_id";
+            mysqli_query($enlace, $actualizarEstado);
+        
+            // Redirigir a la página de la cocina con el ID de la orden como parámetro
+            exit();
+        } else {
+            echo "Error: " . mysqli_error($enlace);
         }
-
-        // Actualizar el estado de la orden a "En Cocina"
-        $actualizarEstado = "UPDATE Orden SET isEntregado = FALSE WHERE orden_id = $orden_id";
-        mysqli_query($enlace, $actualizarEstado);
-
-        // Redirigir a la página de la cocina con el ID de la orden como parámetro
-        header("Location: cocina.php?orden_id=$orden_id");
-        exit();
-    } else {
-        echo "Error: " . mysqli_error($enlace);
     }
-}
-?>
+    ?>
 
 
 <h1>Listado de Órdenes</h1>
