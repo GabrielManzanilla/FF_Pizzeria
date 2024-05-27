@@ -47,6 +47,7 @@
                         GROUP BY fk_id_orden, nombre_tamanio
                     ) d ON o.orden_id = d.fk_id_orden
                     JOIN Tamanio t ON d.nombre_tamanio = t.nombre
+                    WHERE o.isEntregado = 1
                     GROUP BY o.orden_id;
 ";
 
