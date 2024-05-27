@@ -46,10 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 
-<body>
+<body><a href="../../../index.php">Regresar al Menú Principal</a>
    <!-- Sección de la cocina -->
 <div class="cocina-section">
-<a href="../../../index.php">Regresar al Menú Principal</a>
+    
     <h2>Ordenes en Cocina</h2>
     <?php
     // Consulta para obtener todas las órdenes
@@ -57,8 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             c.nombre AS nombre_cliente,
                             o.isEntregado,
                             GROUP_CONCAT(i.nombre SEPARATOR ', ') AS description,
-                            t.nombre AS tamano_pizza,
-                            ROUND(SUM(t.precio), 2) AS total_precio
+                            t.nombre AS tamano_pizza
                         FROM Orden o
                         JOIN Clientes c ON o.fk_id_cliente = c.cliente_id
                         JOIN Details d ON o.orden_id = d.fk_id_orden
@@ -73,9 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="pedido">
                 <h3>Pedido #<?php echo $row['id_order']; ?></h3>
                 <p><strong>Cliente:</strong> <?php echo $row['nombre_cliente']; ?></p>
-                <p><strong>Productos:</strong> <?php echo $row['description']; ?></p>
                 <p><strong>Tamaño de la Pizza:</strong> <?php echo $row['tamano_pizza']; ?></p>
-                <p><strong>Total:</strong> $<?php echo $row['total_precio']; ?></p>
+                <p><strong>Ingredientes:</strong> <?php echo $row['description']; ?></p>
                 <p><strong>Estado:</strong> <?php echo ($row['isEntregado'] == '0') ? 'En Cocina' : 'Listo para Entrega'; ?></p>
                 <!-- Formulario para actualizar el estado -->
                 <?php if($row['isEntregado'] == '0'): ?>
