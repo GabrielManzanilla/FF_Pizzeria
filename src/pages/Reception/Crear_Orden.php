@@ -1,5 +1,5 @@
 <?php
-include ("../../conectar.php");
+include("../../conectar.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fecha = $_POST['fecha'];
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         mysqli_query($enlace, $actualizarEstado);
 
         // Redirigir a la misma página para evitar el reenvío del formulario al recargar
-        header("Location: ".$_SERVER['PHP_SELF']);
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     } else {
         echo "Error: " . mysqli_error($enlace);
@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,15 +44,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 100%;
             border-collapse: collapse;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
-        th, td {
+
+        th,
+        td {
             padding: 10px;
             text-align: left;
         }
     </style>
 </head>
+
 <body>
 
     <h1>Crear Nueva Orden</h1>
@@ -61,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" name="fecha" required><br><br>
-        
+
         <label for="cliente">Cliente:</label>
         <select id="cliente" name="cliente" required>
             <?php
@@ -105,59 +112,76 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <h1>Listado de Órdenes</h1>
     <?php
-    $consultaOrder = "SELECT o.orden_id AS id_order,
+    $consultaOrder = "SELECT 
+                        o.orden_id AS id_order,
                         c.nombre AS nombre_cliente,
                         o.isEntregado,
-                        GROUP_CONCAT(t.nombre SEPARATOR ', ') AS description,
-                        ROUND(SUM(t.precio),2) AS total_precio
+                        GROUP_CONCAT(CONCAT(t.nombre, ': ', d.descripcion) ORDER BY t.nombre SEPARATOR '|') AS description,
+                        ROUND(SUM(t.precio), 2) AS total_precio
                     FROM Orden o
                     JOIN Clientes c ON o.fk_id_cliente = c.cliente_id
-                    JOIN Details d ON o.orden_id = d.fk_id_orden
-                    JOIN Tamanio t ON d.fk_id_tamanio = t.tamanio_id
-                    -- JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
-                    GROUP BY o.orden_id;";
+                    JOIN (
+                        SELECT 
+                            fk_id_orden,
+                            t.nombre AS nombre_tamanio,
+                            GROUP_CONCAT(i.nombre ORDER BY i.nombre SEPARATOR ', ') AS descripcion
+                        FROM Details d
+                        JOIN Tamanio t ON d.fk_id_tamanio = t.tamanio_id
+                        JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
+                        GROUP BY fk_id_orden, nombre_tamanio
+                    ) d ON o.orden_id = d.fk_id_orden
+                    JOIN Tamanio t ON d.nombre_tamanio = t.nombre
+                    GROUP BY o.orden_id;
+";
 
     $orden = mysqli_query($enlace, $consultaOrder);
 
-    if($orden){    
+    if ($orden) {
         $total_Filas = mysqli_num_rows($orden);
-        
-        if($total_Filas > 0){
+
+        if ($total_Filas > 0) {
             echo "<table>";
-            echo "<tr><th>ORDEN</th><th>Cliente</th><th>Estado Entrega</th><th>Descripción del Pedido</th><th>TOTAL</th></tr>";
+            echo "<tr>
+            <th>ORDEN</th>
+            <th>Cliente</th>
+            <th>Estado Entrega</th>
+            <th>Descripción del Pedido</th>
+            <th>TOTAL</th></tr>";
 
-            // Obtener todos los resultados en un array
-            $rows = mysqli_fetch_all($orden, MYSQLI_ASSOC);
-
-            // Iterar sobre el array con un bucle for
-            for ($i = 0; $i < count($rows); $i++) {
-                $row = $rows[$i];
-                // Generar una fila de la tabla con los datos de la fila actual
+            // Iterar sobre los resultados y mostrar cada fila en la tabla
+            while ($row = mysqli_fetch_assoc($orden)) {
                 echo "<tr>";
                 echo "<td>" . $row['id_order'] . "</td>";
                 echo "<td>" . $row['nombre_cliente'] . "</td>";
-                if($row['isEntregado'] == '0'){
-                    echo "<td>" . 'En Cocina' . "</td>";
+                if ($row['isEntregado'] == '0') {
+                    echo "<td>En Cocina</td>";
+                } elseif ($row['isEntregado'] == '1') {
+                    echo "<td>Entregado al repartidor</td>";
+                } else {
+                    echo "<td>ERROR</td>";
                 }
-                else if($row['isEntregado'] == '1'){
-                    echo "<td>" . 'Entregado al repartidor' . "</td>";
+
+                // Imprimir la descripción del pedido
+                echo "<td>";
+                $ingredientes_por_tamanio = explode('|', $row['description']);
+                foreach ($ingredientes_por_tamanio as $descripcion) {
+                    list($tamanio, $ingredientes) = explode(':', $descripcion);
+                    echo "{$tamanio}({$ingredientes}), ";
                 }
-                else{
-                    echo "<td>" . 'ERROR ' . "</td>";
-                }
-                echo "<td>" . $row['description'] . "</td>";
+                echo "</td>";
+
                 echo "<td>" . $row['total_precio'] . "</td>";
                 echo "</tr>";
             }
             echo "</table>";
-
-        }else{
+        } else {
             echo "No hay órdenes registradas";
         }
-    }else{
+    } else {
         echo "Ha ocurrido un error al consultar las órdenes";
     }
     ?>
 
 </body>
+
 </html>
