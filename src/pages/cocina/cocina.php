@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body><a href="../../../index.php">Regresar al Menú Principal</a>
-   <!-- Sección de la cocina -->
+<!-- Sección de la cocina -->
 <div class="cocina-section">
     
     <h2>Ordenes en Cocina</h2>

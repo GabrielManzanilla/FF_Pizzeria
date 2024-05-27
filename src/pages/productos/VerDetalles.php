@@ -17,7 +17,7 @@
         $consultaTamanios = "SELECT * FROM tamanio";
         $resultadoTamanios = mysqli_query($enlace, $consultaTamanios);
 
-        echo "<table border='1'>";
+        echo "<table>";
         echo "<tr>
                 <th>cantidad <br> ingredientes</th>
                 <th>Numero</th>

@@ -115,26 +115,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Listado de Órdenes</h1>
     <?php
     $consultaOrder = "SELECT 
-                    o.orden_id AS id_order,
-                    c.nombre AS nombre_cliente,
-                    o.isEntregado,
-                    GROUP_CONCAT(CONCAT(t.nombre, ': ', d.descripcion) ORDER BY t.nombre SEPARATOR '|') AS description,
-                    ROUND(SUM(t.precio), 2) AS total_precio
-                FROM Orden o
-                JOIN Clientes c ON o.fk_id_cliente = c.cliente_id
-                JOIN (
-                    SELECT 
-                        fk_id_orden,
-                        t.nombre AS nombre_tamanio,
-                        GROUP_CONCAT(i.nombre ORDER BY i.nombre SEPARATOR ', ') AS descripcion
-                    FROM Details d
-                    JOIN Tamanio t ON d.fk_id_tamanio = t.tamanio_id
-                    JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
-                    GROUP BY fk_id_orden, nombre_tamanio
-                ) d ON o.orden_id = d.fk_id_orden
-                JOIN Tamanio t ON d.nombre_tamanio = t.nombre
-                WHERE o.isEntregado = 1
-                GROUP BY o.orden_id;";
+                            o.orden_id AS id_order,
+                            c.nombre AS nombre_cliente,
+                            o.isEntregado,
+                            GROUP_CONCAT(CONCAT(t.nombre, ': ', d.descripcion) ORDER BY t.nombre SEPARATOR '|') AS description,
+                            ROUND(SUM(t.precio), 2) AS total_precio
+                        FROM Orden o
+                        JOIN Clientes c ON o.fk_id_cliente = c.cliente_id
+                        JOIN (
+                            SELECT 
+                                fk_id_orden,
+                                t.nombre AS nombre_tamanio,
+                                GROUP_CONCAT(i.nombre ORDER BY i.nombre SEPARATOR ', ') AS descripcion
+                            FROM Details d
+                            JOIN Tamanio t ON d.fk_id_tamanio = t.tamanio_id
+                            JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
+                            GROUP BY fk_id_orden, nombre_tamanio
+                        ) d ON o.orden_id = d.fk_id_orden
+                        
+                        JOIN Tamanio t ON d.nombre_tamanio = t.nombre
+                        GROUP BY o.orden_id;";
 
 
     $orden = mysqli_query($enlace, $consultaOrder);
