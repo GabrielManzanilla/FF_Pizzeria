@@ -47,7 +47,7 @@
                 while($row = mysqli_fetch_assoc($resultado)){
                     // Generar una fila de la tabla con los datos de la fila actual
                     echo "<tr>";
-                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['cliente_id'] . "</td>";
                     echo "<td>" . $row['numero'] . "</td>";
                     echo "<td>" . $row['nombre'] . "</td>";
                     echo "<td>" . $row['direccion'] . "</td>";
