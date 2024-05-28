@@ -31,7 +31,7 @@
             </div>
             <div class="item">
                 <div onclick="mostrarCocina()">
-                    <img src="../FF_Pizzeria/imgg/cocina.avif" alt="" class="icon">
+                    <img src="" alt="" class="icon">
                     <div>COCINA</div>
                 </div>
             </div>

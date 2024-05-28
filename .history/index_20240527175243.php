@@ -39,7 +39,7 @@
 
     </div>
 
-    <div>
+    
         <div class="listas">
             <div class="item-lista">
                 <a href="/FF_Pizzeria/src/pages/clientes/VerClientes.php">Ver Clientes</a>
@@ -51,7 +51,7 @@
                 <a href="/FF_Pizzeria/src/pages/empleados/VerEmpleados.php">Ver Empleados</a>
             </div>
         </div>
-    </div>
+   
 </body>
 
 <script>

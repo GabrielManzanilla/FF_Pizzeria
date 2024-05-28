@@ -18,20 +18,20 @@
         <div class="container">
             <div class="item">
                 <div onclick="mostrarRepartidor()">
-                    <img src="../FF_Pizzeria/imgg/repartidor.avif" alt="" class="icon">
+                    <img src="/FF_Pizzeria/src/img/user.svg" alt="" class="icon">
                     <div>REPARTIDOR</div>
                 </div>
             </div>
 
             <div class="item">
                 <div onclick="mostrarRecepcion()">
-                    <img src="../FF_Pizzeria/imgg/recep.jpg" alt="" class="icon">
+                    <img src="/FF_Pizzeria/src/img/bag.svg" alt="" class="icon">
                     <div>RECEPCION</div>
                 </div>
             </div>
             <div class="item">
                 <div onclick="mostrarCocina()">
-                    <img src="../FF_Pizzeria/imgg/cocina.avif" alt="" class="icon">
+                    <img src="/FF_Pizzeria/src/img/bag.svg" alt="" class="icon">
                     <div>COCINA</div>
                 </div>
             </div>
