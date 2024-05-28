@@ -118,37 +118,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <?php
     $consultaOrder = "SELECT 
-                            o.orden_id AS id_order,
-                            c.nombre AS nombre_cliente,
-                            o.isEntregado,
+                            o.orden_id AS id_order,  -- Selecciona el ID de la orden y lo renombra como 'id_order'
+                            c.nombre AS nombre_cliente,  -- Selecciona el nombre del cliente y lo renombra como 'nombre_cliente'
+                            o.isEntregado,  -- Selecciona el estado de entrega de la orden
 
-                            GROUP_CONCAT(CONCAT(t.nombre, ': ', d.descripcion) 
-                            ORDER BY t.nombre SEPARATOR ' ') AS description,
-    
-                            ROUND(SUM(t.precio), 2) AS total_precio
+                            -- Concatena el nombre del tamaño con la descripción de los ingredientes para cada orden
+                            GROUP_CONCAT(CONCAT(t.nombre, ': ', d.descripcion)  -- Combina el nombre del tamaño con la descripción de los ingredientes
+                            ORDER BY t.nombre SEPARATOR ' ') AS description,  -- Ordena por el nombre del tamaño y concatena con un espacio en blanco
+
+                            ROUND(SUM(t.precio), 2) AS total_precio  -- Suma y redondea los precios de los tamaños para obtener el precio total
                         FROM Orden o
                         JOIN Clientes c ON o.fk_id_cliente = c.cliente_id
 
-
+                        -- Subconsulta para obtener la descripción de los ingredientes de cada orden
                         JOIN (
-
                             SELECT 
                                 fk_id_orden,
                                 t.nombre AS nombre_tamanio,
-                                GROUP_CONCAT(i.nombre ORDER BY i.nombre SEPARATOR ', ') AS descripcion
+                                GROUP_CONCAT(i.nombre ORDER BY i.nombre SEPARATOR ', ') AS descripcion  -- Concatena los nombres de los ingredientes separados por comas
                             FROM Details d
                             JOIN Tamanio t ON d.fk_id_tamanio = t.tamanio_id
-                            
                             JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
-
-                            GROUP BY fk_id_orden, nombre_tamanio
+                            GROUP BY fk_id_orden, nombre_tamanio  -- Agrupa por ID de orden y nombre de tamaño
                         ) 
-
-
-                        d ON o.orden_id = d.fk_id_orden
                         
-                        JOIN Tamanio t ON d.nombre_tamanio = t.nombre
-                        GROUP BY o.orden_id;";
+                        d ON o.orden_id = d.fk_id_orden  -- Une la subconsulta con la tabla principal por ID de orden
+
+                        JOIN Tamanio t ON d.nombre_tamanio = t.nombre  -- Une la tabla de tamaños con la subconsulta por el nombre del tamaño
+                        GROUP BY o.orden_id;";  
+
 
 
     $orden = mysqli_query($enlace, $consultaOrder);
