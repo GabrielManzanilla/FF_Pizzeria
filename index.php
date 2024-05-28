@@ -56,7 +56,7 @@
 
 <script>
     function mostrarRepartidor() {
-        window.location.assign("/FF_Pizzeria/src/pages/Repartidor/VerEntregas.php");
+        window.location.assign("/FF_Pizzeria/src/pages/Repartidor/repartidor.php");
     }
 
     function mostrarRecepcion() {

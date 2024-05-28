@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-
+    <a href="../../../index.php">Regresar al Menú Principal</a>
     <h1>Crear Nueva Orden</h1>
 
     <!--Formulario.-->
@@ -69,16 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" name="fecha" required><br><br>
 
-        <label for="cliente">Cliente:</label>
-        <select id="cliente" name="cliente" required>
-            <?php
-            $clientes = mysqli_query($enlace, "SELECT cliente_id, nombre FROM Clientes");
-            while ($cliente = mysqli_fetch_assoc($clientes)) {
-                echo "<option value='{$cliente['cliente_id']}'>{$cliente['nombre']}</option>";
-            }
-            ?>
-        </select><br><br>
-
+        <label for="cliente">Cliente:
+            <select id="cliente" name="cliente" required>
+                <?php
+                $clientes = mysqli_query($enlace, "SELECT cliente_id, nombre FROM Clientes");
+                while ($cliente = mysqli_fetch_assoc($clientes)) {
+                    echo "<option value='{$cliente['cliente_id']}'>{$cliente['nombre']}</option>";
+                }
+                ?>
+            </select>
+            <a href="../clientes/VerClientes.php">Alta Usuario</a>
+        </label>
+        <br><br>
         <label for="empleado">Empleado:</label>
         <select id="empleado" name="empleado" required>
             <?php
@@ -113,26 +115,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Listado de Órdenes</h1>
     <?php
     $consultaOrder = "SELECT 
-                        o.orden_id AS id_order,
-                        c.nombre AS nombre_cliente,
-                        o.isEntregado,
-                        GROUP_CONCAT(CONCAT(t.nombre, ': ', d.descripcion) ORDER BY t.nombre SEPARATOR '|') AS description,
-                        ROUND(SUM(t.precio), 2) AS total_precio
-                    FROM Orden o
-                    JOIN Clientes c ON o.fk_id_cliente = c.cliente_id
-                    JOIN (
-                        SELECT 
-                            fk_id_orden,
-                            t.nombre AS nombre_tamanio,
-                            GROUP_CONCAT(i.nombre ORDER BY i.nombre SEPARATOR ', ') AS descripcion
-                        FROM Details d
-                        JOIN Tamanio t ON d.fk_id_tamanio = t.tamanio_id
-                        JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
-                        GROUP BY fk_id_orden, nombre_tamanio
-                    ) d ON o.orden_id = d.fk_id_orden
-                    JOIN Tamanio t ON d.nombre_tamanio = t.nombre
-                    GROUP BY o.orden_id;
-";
+                            o.orden_id AS id_order,
+                            c.nombre AS nombre_cliente,
+                            o.isEntregado,
+                            GROUP_CONCAT(CONCAT(t.nombre, ': ', d.descripcion) ORDER BY t.nombre SEPARATOR '|') AS description,
+                            ROUND(SUM(t.precio), 2) AS total_precio
+                        FROM Orden o
+                        JOIN Clientes c ON o.fk_id_cliente = c.cliente_id
+                        JOIN (
+                            SELECT 
+                                fk_id_orden,
+                                t.nombre AS nombre_tamanio,
+                                GROUP_CONCAT(i.nombre ORDER BY i.nombre SEPARATOR ', ') AS descripcion
+                            FROM Details d
+                            JOIN Tamanio t ON d.fk_id_tamanio = t.tamanio_id
+                            JOIN Ingredientes i ON d.fk_id_ingredientes = i.ingrediente_id
+                            GROUP BY fk_id_orden, nombre_tamanio
+                        ) d ON o.orden_id = d.fk_id_orden
+                        
+                        JOIN Tamanio t ON d.nombre_tamanio = t.nombre
+                        GROUP BY o.orden_id;";
+
 
     $orden = mysqli_query($enlace, $consultaOrder);
 

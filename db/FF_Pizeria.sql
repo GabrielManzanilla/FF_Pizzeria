@@ -28,7 +28,7 @@ CREATE TABLE Clientes (
 
 CREATE TABLE Empleados (
     empleado_id INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    numero INT(10),
+    numero INT(20),
     nombre VARCHAR(255)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE Orden (
     FOREIGN KEY (fk_id_cliente) REFERENCES Clientes(cliente_id) -- Cambio realizado aqui
 );
 
-CREATE TABLE Details (
+CREATE TABLE Details(
     fk_id_orden INT(6),
     fk_id_ingredientes INT(6),
     fk_id_tamanio INT(6),
