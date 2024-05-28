@@ -53,7 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h2>Ordenes en Cocina</h2>
     <?php
     // Consulta para obtener todas las órdenes
-    $consultaOrder = "SELECT o.orden_id AS id_order,
+    $consultaOrder = "SELECT
+                            o.orden_id AS id_order,
                             c.nombre AS nombre_cliente,
                             o.isEntregado,
                             GROUP_CONCAT(i.nombre SEPARATOR ', ') AS description,

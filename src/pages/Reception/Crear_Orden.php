@@ -60,6 +60,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
+
+<div class="sidebar" id="sidebar">
+        <div class="navbar">
+            <h1>FREDDY FAZBER PIZZA</h1>
+        </div>
+        <a href="#" onclick="mostrarRepartidor()">
+            <div class="item">
+                <i class='bx bx-user-circle icon'></i>
+                <div>REPARTIDOR</div>
+            </div>
+        </a>
+        <a href="#" onclick="mostrarRecepcion()">
+            <div class="item">
+                <i class='bx bx-receipt icon'></i>
+                <div>RECEPCIÓN</div>
+            </div>
+        </a>
+        <a href="#" onclick="mostrarCocina()">
+            <div class="item">
+                <i class='bx bx-food-menu icon'></i>
+                <div>COCINA</div>
+            </div>
+        </a>
+        <a href="/FF_Pizzeria/src/pages/clientes/VerClientes.php">
+            <div class="item">
+                <i class='bx bx-user icon'></i>
+                <div>CLIENTES</div>
+            </div>
+        </a>
+        <a href="/FF_Pizzeria/src/pages/empleados/VerEmpleados.php">
+            <div class="item">
+                <i class='bx bx-group icon'></i>
+                <div>EMPLEADOS</div>
+            </div>
+        </a>
+        <a href="/FF_Pizzeria/src/pages/productos/VerDetalles.php">
+            <div class="item">
+                <i class='bx bx-pizza icon'></i>
+                <div>PRODUCTOS</div>
+            </div>
+        </a>
+    </div>
     <a href="../../../index.php">Regresar al Menú Principal</a>
     <h1>Crear Nueva Orden</h1>
 
@@ -113,6 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
 
     <h1>Listado de Órdenes</h1>
+
+
     <?php
     $consultaOrder = "SELECT 
                             o.orden_id AS id_order,
