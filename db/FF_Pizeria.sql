@@ -1,11 +1,15 @@
-DROP DATABASE FF_Pizzeria;
-
+DROP DATABASE IF EXISTS FF_Pizzeria;
 
 -- Creando base de datos
 CREATE DATABASE FF_Pizzeria;
 USE FF_Pizzeria;
 
 -- Creando tablas
+CREATE TABLE Roles (
+    rol_id INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE Ingredientes (
     ingrediente_id INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre VARCHAR(255)
@@ -15,7 +19,6 @@ CREATE TABLE Tamanio (
     tamanio_id INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre VARCHAR(255),
     precio FLOAT
-
 );
 
 CREATE TABLE Clientes (
@@ -25,11 +28,12 @@ CREATE TABLE Clientes (
     direccion VARCHAR(255)
 );
 
-
 CREATE TABLE Empleados (
     empleado_id INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     numero INT(20),
-    nombre VARCHAR(255)
+    nombre VARCHAR(255),
+    fk_rol_id INT(6),
+    FOREIGN KEY (fk_rol_id) REFERENCES Roles(rol_id)
 );
 
 CREATE TABLE Orden (
@@ -39,7 +43,7 @@ CREATE TABLE Orden (
     fk_id_cliente INT(6),
     fk_id_empleado INT(6),
     FOREIGN KEY (fk_id_empleado) REFERENCES Empleados(empleado_id),
-    FOREIGN KEY (fk_id_cliente) REFERENCES Clientes(cliente_id) -- Cambio realizado aqui
+    FOREIGN KEY (fk_id_cliente) REFERENCES Clientes(cliente_id)
 );
 
 CREATE TABLE Details(

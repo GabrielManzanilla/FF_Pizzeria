@@ -64,3 +64,12 @@ INSERT INTO Details (fk_id_orden, fk_id_ingredientes, fk_id_tamanio) VALUES
     (5, 9, 3), -- Orden 5 con Anchoas y tamaño Grande
     (5, 10, 3); -- Orden 5 con Albahaca y tamaño Grande
 
+-- Insertando roles
+INSERT INTO Roles (nombre) VALUES ('Cocinero');
+INSERT INTO Roles (nombre) VALUES ('Repartidor');
+INSERT INTO Roles (nombre) VALUES ('Recepcionista');
+
+-- Insertando empleados
+INSERT INTO Empleados (numero, nombre, fk_rol_id) VALUES (12345, 'Juan Perez', 1); -- Cocinero
+INSERT INTO Empleados (numero, nombre, fk_rol_id) VALUES (67890, 'Maria Gomez', 2); -- Repartidor
+INSERT INTO Empleados (numero, nombre, fk_rol_id) VALUES (54321, 'Luis Torres', 3); -- Recepcionista

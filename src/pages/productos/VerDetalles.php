@@ -9,7 +9,7 @@
 
 <body>
     <?php include("../../conectar.php"); ?>
-    <a href="../../../index.php">Regresar al Menú Principal</a>
+    <a href="../../../index_Cocina.php">Regresar al Menú Principal</a>
     <h1>Conoce la variedad de productos que tenemos para ti</h1>
     <div>
         <h2>Tamaños de Pizza</h2>

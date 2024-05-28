@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-    <a href="../../../index.php">Regresar al Menú Principal</a>
+    <a href="../../../index_Repartidor.php">Regresar al Menú Principal</a>
     <h1 style="text-align:center">PEDIDOS A ENTREGAR</h1>
 
     <?php
@@ -32,6 +32,7 @@
         $nuevo_estado = $_POST['estado'];
 
         $actualizar_estado = "UPDATE Orden SET isEntregado = ? WHERE orden_id = ?";
+
         $stmt = mysqli_prepare($enlace, $actualizar_estado);
         mysqli_stmt_bind_param($stmt, "ii", $nuevo_estado, $orden_id);
         
